@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📘 مولد الجدول الدراسي الذكي</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container animate__animated animate__fadeIn">
+    <h1 class="animate__animated animate__bounceIn">📘 مولد الجدول الدراسي الذكي</h1>
+
+    <section class="section animate-slide">
+      <h2>إعدادات الكلية</h2>
+      <div class="input-group">
+        <label>أيام الدراسة:</label>
+        <div class="days-checkbox-container">
+          <label class="day-checkbox">
+            <input type="checkbox" name="studyDays" value="السبت" checked>
+            <span>السبت</span>
+          </label>
+          <label class="day-checkbox">
+            <input type="checkbox" name="studyDays" value="الأحد" checked>
+            <span>الأحد</span>
+          </label>
+          <label class="day-checkbox">
+            <input type="checkbox" name="studyDays" value="الإثنين" checked>
+            <span>الإثنين</span>
+          </label>
+          <label class="day-checkbox">
+            <input type="checkbox" name="studyDays" value="الثلاثاء" checked>
+            <span>الثلاثاء</span>
+          </label>
+          <label class="day-checkbox">
+            <input type="checkbox" name="studyDays" value="الأربعاء" checked>
+            <span>الأربعاء</span>
+          </label>
+          <label class="day-checkbox">
+            <input type="checkbox" name="studyDays" value="الخميس" checked>
+            <span>الخميس</span>
+          </label>
+          <label class="day-checkbox">
+            <input type="checkbox" name="studyDays" value="الجمعة">
+            <span>الجمعة</span>
+          </label>
+        </div>
+      </div>
+      <div class="time-range-container">
+        <div class="input-group">
+          <label for="startHour">ساعة البدء:</label>
+          <select id="startHour" class="time-select">
+            <option value="7">7:00 صباحاً</option>
+            <option value="8" selected>8:00 صباحاً</option>
+            <option value="9">9:00 صباحاً</option>
+            <option value="10">10:00 صباحاً</option>
+            <option value="11">11:00 صباحاً</option>
+            <option value="12">12:00 ظهراً</option>
+            <option value="13">1:00 مساءً</option>
+            <option value="14">2:00 مساءً</option>
+            <option value="15">3:00 مساءً</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="endHour">ساعة الانتهاء:</label>
+          <select id="endHour" class="time-select">
+            <option value="12">12:00 ظهراً</option>
+            <option value="13">1:00 مساءً</option>
+            <option value="14">2:00 مساءً</option>
+            <option value="15">3:00 مساءً</option>
+            <option value="16">4:00 مساءً</option>
+            <option value="17" selected>5:00 مساءً</option>
+            <option value="18">6:00 مساءً</option>
+            <option value="19">7:00 مساءً</option>
+            <option value="20">8:00 مساءً</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section class="section animate-slide" style="animation-delay: 0.2s">
+      <h2>القاعات</h2>
+      <div class="input-group">
+        <input type="text" id="roomInput" placeholder="اسم القاعة (مثال: قاعة 101)">
+        <button id="addRoomBtn" class="btn-primary pulse">+ إضافة قاعة</button>
+      </div>
+      <div class="room-management">
+        <ul id="roomsList" class="rooms-list"></ul>
+        <div class="room-stats" id="roomStats">
+          <span>عدد القاعات: <strong>0</strong></span>
+          <button id="clearRoomsBtn" class="btn-small btn-accent">مسح الكل</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Teachers Section -->
+    <section class="section animate-slide" style="animation-delay: 0.4s">
+      <h2>إضافة مدرس</h2>
+      <div class="form-grid">
+        <div class="input-group">
+          <label for="teacherName">اسم المدرس:</label>
+          <input type="text" id="teacherName" placeholder="اسم المدرس الكامل">
+        </div>
+        <div class="input-group">
+          <label for="subjectName">المادة:</label>
+          <input type="text" id="subjectName" placeholder="اسم المادة">
+        </div>
+        <div class="input-group">
+          <label for="requiredLessons">عدد الحصص الأسبوعية:</label>
+          <input type="number" id="requiredLessons" placeholder="عدد الحصص" min="1" value="2">
+        </div>
+        <div class="input-group">
+          <label for="lessonDuration">مدة الحصة (ساعات):</label>
+          <input type="number" id="lessonDuration" placeholder="مدة الحصة" min="1" max="3" value="1">
+        </div>
+      </div>
+      
+      <h3 class="subheading">توافر المدرس:</h3>
+      <div class="availability-controls">
+        <button id="selectAllAvailability" class="btn-small btn-primary">تحديد الكل</button>
+        <button id="deselectAllAvailability" class="btn-small btn-accent">إلغاء الكل</button>
+        <button id="copyAvailabilityBtn" class="btn-small btn-secondary">نسخ التوافر</button>
+        <button id="pasteAvailabilityBtn" class="btn-small btn-secondary">لصق التوافر</button>
+      </div>
+      <div id="availabilityGrid" class="availability-grid"></div>
+      
+      <button id="addTeacherBtn" class="btn-primary">+ إضافة مدرس</button>
+
+      <div class="teacher-management">
+        <div class="teacher-stats" id="teacherStats">
+          <span>عدد المدرسين: <strong>0</strong></span>
+          <span>إجمالي الحصص: <strong>0</strong></span>
+          <button id="clearTeachersBtn" class="btn-small btn-accent">مسح الكل</button>
+        </div>
+        <div class="table-container">
+          <table id="teachersTable" class="data-table">
+            <thead>
+              <tr>
+                <th>المدرس</th>
+                <th>المادة</th>
+                <th>الحصص</th>
+                <th>المدة</th>
+                <th>حذف</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Constraints Section -->
+    <section class="section animate-slide" style="animation-delay: 0.6s">
+      <h2>القيود اليدوية</h2>
+      <div class="constraints-info">
+        <p>أمثلة للقيود المدعومة:</p>
+        <ul>
+          <li>لا يُسمح للمدرس 'أحمد' بالتدريس يوم الأحد الساعة 9</li>
+          <li>لا تُدرس مادة 'الرياضيات' يوم الثلاثاء الساعة 11</li>
+        </ul>
+      </div>
+      <div class="input-group">
+        <textarea id="customConstraint" rows="3" placeholder="اكتب القيد هنا..."></textarea>
+      </div>
+      <div class="constraints-controls">
+        <button id="addConstraintBtn" class="btn-accent">+ إضافة قيد</button>
+        <button id="viewConstraintsBtn" class="btn-small btn-secondary">عرض القيود</button>
+      </div>
+      <div id="constraintsList" class="constraints-list"></div>
+    </section>
+
+    <!-- Generation Section -->
+    <section class="section animate-slide" style="animation-delay: 0.8s">
+      <h2>توليد الجدول</h2>
+      <div class="generation-options">
+        <div class="option-card">
+          <h3>توليد سريع</h3>
+          <p>يولد جدول واحد بسرعة</p>
+          <button id="generateBtn" class="btn-secondary">⚡ توليد سريع</button>
+        </div>
+        <div class="option-card">
+          <h3>توليد دقيق</h3>
+          <p>يولد أفضل جدول بعدة محاولات</p>
+          <button id="generateBestBtn" class="btn-secondary">🔍 توليد دقيق</button>
+        </div>
+      </div>
+      <div class="generation-settings">
+        <label>
+          <input type="checkbox" id="optimizeCheckbox" checked>
+          تحسين توزيع القاعات والمدرسين
+        </label>
+      </div>
+    </section>
+
+    <!-- Final Schedule Section -->
+    <section class="section animate-slide" style="animation-delay: 1s">
+      <div class="schedule-header">
+        <h2 class="formal-header">
+          <span class="header-icon">📅</span>
+          الجدول الدراسي النهائي
+          <span class="header-details" id="scheduleDetails"></span>
+        </h2>
+        <div class="schedule-actions">
+          <button id="downloadPdfBtn" class="btn-success">
+            <span class="icon">📕</span>
+            <span class="text">تحميل PDF</span>
+          </button>
+          <button id="refreshScheduleBtn" class="btn-small btn-secondary">
+            <span class="icon">🔄</span>
+            <span class="text">تحديث</span>
+          </button>
+        </div>
+      </div>
+      <div class="schedule-stats" id="scheduleStats">
+        <div class="stat-item">
+          <span class="stat-label">إكتمال الجدول:</span>
+          <div class="progress-container">
+            <div class="progress-bar" id="completionBar" style="width: 0%"></div>
+          </div>
+          <span class="stat-value" id="completionPercent">0%</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">جودة الجدول:</span>
+          <span class="stat-value" id="scheduleScore">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">عدد الحصص:</span>
+          <span class="stat-value" id="totalLessons">0</span>
+        </div>
+      </div>
+      <div id="finalSchedule" class="schedule-output"></div>
+      <div id="scheduleAnalysis" class="schedule-analysis"></div>
+    </section>
+  </div>
+
+  <!-- Constraints Modal -->
+  <div id="constraintsModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>القيود المضافة</h3>
+      <ul id="constraintsModalList"></ul>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
